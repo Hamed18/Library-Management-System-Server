@@ -28,12 +28,18 @@ async function run() {
     await client.connect();
 
 
-	// CREATE: send user input data from server to database. client: Add Spot 
+	// CREATE: send user input data from server to database. client: Add Book
 	const AllBookCollection = client.db("BookSharing").collection("AllBooks");
 	app.post('/addBooks', async(req,res) => {
 		const newBook = req.body;
 		console.log(newBook);
 		const result = await AllBookCollection.insertOne(newBook);
+		res.send(result);
+	})
+	// READ: get data from db. client: All Books
+    app.get('/allBooks', async(req,res) => {
+		const cursor = AllBookCollection.find();
+		const result = await cursor.toArray();
 		res.send(result);
 	})
 
