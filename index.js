@@ -32,7 +32,7 @@ async function run() {
 	const AllBookCollection = client.db("BookSharing").collection("AllBooks");
 	app.post('/addBooks', async(req,res) => {
 		const newBook = req.body;
-		console.log(newBook);
+	//	console.log(newBook);
 		const result = await AllBookCollection.insertOne(newBook);
 		res.send(result);
 	})
@@ -49,6 +49,26 @@ async function run() {
 		const result = await AllBookCollection.findOne(query);
 		res.send(result);
 	 })
+	 //Updtae
+	 app.patch('/allBooks/:id', async (req, res) => {
+		const id = req.params.id;
+		console.log(id);
+		const filter = { _id: new ObjectId(id) };  // filter select the particular document that needs to be updated
+		const UpdatedBook = req.body;
+		console.log(UpdatedBook);
+		const updateDoc = {
+			$set: {
+				BookImage: UpdatedBook.BookImage,
+				BookName: UpdatedBook.BookName,
+				authorName: UpdatedBook.authorName,
+				category: UpdatedBook.category,
+				rating: UpdatedBook.rating
+			},
+		};
+		const result = await AllBookCollection.updateOne(filter, updateDoc);
+	//	res.send(result);
+		res.send({success : true});
+	})
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
