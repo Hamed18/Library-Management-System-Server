@@ -66,9 +66,22 @@ async function run() {
 			},
 		};
 		const result = await AllBookCollection.updateOne(filter, updateDoc);
-	//	res.send(result);
-		res.send({success : true});
+		res.send(result);
+		// res.send({success : true});
 	})
+
+	/* query by category
+    app.get('/allBooksData', async(req,res) => {
+		console.log('check',req.query.category);
+		let query = {};
+		if (req.query?.category){
+			query = {category: req.query.category}
+		}
+		const result = await AllBookCollection.find(query).toArray();
+		res.send(result);
+		console.log('query by category successful');
+	})  */
+
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
